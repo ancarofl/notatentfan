@@ -1,6 +1,7 @@
 print("Hoi!")
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import re
@@ -17,7 +18,9 @@ load_dotenv()
   
 url = os.getenv('URL')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+options = webdriver.ChromeOptions()
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 driver.get(url)
   	  
 results_element_text = (driver.find_element("xpath", '//html/body/div/main/div/div[2]/div[1]/div/div/div[1]/h1')).text
