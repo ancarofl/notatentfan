@@ -17,7 +17,6 @@ def main():
 	SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
 	RANGE_NAME = 'Data!A2:N'
 
-	"""Google Sheets API example. Prints values from a sample spreadsheet."""
 	credentials = None
 	
 	# The file token.json stores the user's access and refresh tokens, and is
