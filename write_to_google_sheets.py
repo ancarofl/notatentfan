@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 
 from connect_to_google_sheets import main as gs_connect
 
-def main(values):
+def main(values, row):
 	load_dotenv()
 
 	SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
-	RANGE_NAME = 'Data!B2:N'
+	RANGE_NAME = 'Data!B' + str(row) + ':N'
 
 	try:
 		service = gs_connect()
@@ -20,10 +20,10 @@ def main(values):
 				'values': values
 			}
 			result = service.spreadsheets().values().update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME,valueInputOption="USER_ENTERED", body=body).execute()
-			print(f"{result.get('updatedCells')} cells updated.")
-			return result
+			return True
 	except HttpError as err:
 		print(err)
+		return False
 
 if __name__ == '__main__':
 	main()
