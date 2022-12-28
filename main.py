@@ -13,11 +13,6 @@ def main():
 	print("Hoi!")
 
 	load_dotenv()
-
-	# Deprecated since https://github.com/SeleniumHQ/selenium/blob/d6acda7c0254f9681574bf4078ff2001705bf940/py/CHANGES#L101
-	# PATH = r"D:\chromedriver"
-	# driver = webdriver.Chrome(PATH)
-	
 	url = os.getenv('URL')
 
 	options = webdriver.ChromeOptions()
