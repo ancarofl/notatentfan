@@ -1,4 +1,4 @@
-# Not A Tent Fan
+# Not A Tent Fan - From ⛺ to 🏡
 This is a super simple script to check housing availability from a specific URL.
 
 ## Prerequisites
