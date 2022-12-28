@@ -1,1 +1,7 @@
+# Python
 .env
+*.pyc
+
+# Google Sheets API
+credentials.json
+token.json
