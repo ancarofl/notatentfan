@@ -1,6 +1,8 @@
-print ("Hoi!")
+print("Hoi!")
 
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import re
 import time
 from datetime import date
@@ -9,12 +11,13 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-PATH = r"D:\chromedriver"
-  
-driver = webdriver.Chrome(PATH)
+# Deprecated since https://github.com/SeleniumHQ/selenium/blob/d6acda7c0254f9681574bf4078ff2001705bf940/py/CHANGES#L101
+#PATH = r"D:\chromedriver"
+#driver = webdriver.Chrome(PATH)
   
 url = os.getenv('URL')
 
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get(url)
   	  
 results_element_text = (driver.find_element("xpath", '//html/body/div/main/div/div[2]/div[1]/div/div/div[1]/h1')).text
@@ -53,4 +56,4 @@ for i in range(1, (results_count + 1)):
 
 		print("")
 
-print ("Tot ziens!")
+print("Tot ziens!")
