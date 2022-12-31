@@ -16,14 +16,14 @@ def main():
 	# Token.json stores the user's access and refresh tokens. 
 	# It is created automatically when the authorization flow completes for the first time.
 	if os.path.exists('token.json'):
-		credentials = Credentials.from_authorized_user_file('token.json', constants.FULL_ACCESS_SCOPE)
+		credentials = Credentials.from_authorized_user_file('token.json', [constants.FULL_ACCESS_SCOPE])
 	
 	# If there are no valid credentials available, ask the user to log in.
 	if not credentials or not credentials.valid:
 		if credentials and credentials.expired and credentials.refresh_token:
 			credentials.refresh(Request())
 		else:
-			flow = InstalledAppFlow.from_client_secrets_file('credentials.json', constants.FULL_ACCESS_SCOPE)
+			flow = InstalledAppFlow.from_client_secrets_file('credentials.json', [constants.FULL_ACCESS_SCOPE])
 			credentials = flow.run_local_server(port=0)
 		# Save the credentials.
 		with open('token.json', 'w') as token:
