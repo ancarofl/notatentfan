@@ -10,6 +10,8 @@ from write_to_google_sheets import main as gs_write
 import os
 from dotenv import load_dotenv
 
+import constants
+
 def get_first_int_from_string(string):
 	return int((re.findall(r'\d+', string))[0])
 
@@ -49,16 +51,31 @@ def main():
 			sqm = get_first_int_from_string(sqm_element_text)
 			price_element_text = driver.find_element("xpath", f'//html/body/div/main/div/div[2]/div[2]/div[2]/div/ul/li[{i}]/article/div[1]/div[1]/div[2]/div/ul/li[1]/b').text
 			price_value = get_first_int_from_string(price_element_text)
-			# availability = driver.find_element("xpath", f'//html/body/div/main/div/div[2]/div[2]/div[2]/div/ul/li[{i}]/article/div[2]/span').text
+
+			# TODO: Improve this...
+			# Check if any elements with that XPATH exist. It would in fact be only one due to the specificity
+			unavailability_label = None
+			unavailability_label_elements = None
+			unavailability_label_elements = driver.find_elements("xpath", f'//html/body/div/main/div/div[2]/div[2]/div[2]/div/ul/li[{i}]/article/div[2]/span')
+			
+			# If the element exists then grab the text from it
+			if unavailability_label_elements and len(unavailability_label_elements) > 0:
+				# print(unavailability_label_elements) # TODO: Remove debug
+				unavailability_label = driver.find_element("xpath", f'//html/body/div/main/div/div[2]/div[2]/div[2]/div/ul/li[{i}]/article/div[2]/span').text
 		except:
 			continue
 
-		# TODO: Filter by availability.
-		if(is_apartment_element_text == 'apartement' or 'apartment'):
+		if(is_apartment_element_text in constants.APARTMENT_LABELS and 
+				int(bedrooms) == int(os.getenv('TARGET_BEDROOMS')) and
+				unavailability_label is None):
 			print(f"-----Apartment {i} - {price_element_text} ")
 			print(address)
 			print(f"{sqm} sqm")
 			print(f"{bedrooms} bedrooms---")
+			
+			# TODO: Remove debug
+			# if(unavailability_label):
+				# print(unavailability_label)
 
 			print("")
 
@@ -66,7 +83,8 @@ def main():
 			gs_write(values, row)
 			row += 1
 
+	print(f"On {date_today}, there are {row - 2} available housing options.")
 	print("Tot ziens!")
 
 if __name__ == '__main__':
-    main()
+	main()
